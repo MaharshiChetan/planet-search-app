@@ -18,4 +18,8 @@ export const API = {
     const url = `${BASE_URL}/sizes`;
     return request(url, {}, {}, 'GET');
   },
+  filterPlanets: (params) => {
+    const url = `${BASE_URL}/sizes`;
+    return request(url, {}, params, 'GET');
+  },
 };
