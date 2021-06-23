@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 
 import { API } from '../API';
@@ -18,7 +18,7 @@ const HomePage = () => {
       const planets = await API.getPlanets(params);
       setPlanetList(planets);
     } catch (err) {
-      const message = err.message || 'Failed to fetch filters!';
+      const message = err.message || 'Failed to fetch planets!';
       showErrorNotification(message);
     }
   };
@@ -54,7 +54,7 @@ const HomePage = () => {
 
       <hr />
 
-      <Row className='h-full flex justify-center border-l border-r border-solid border-gray-200 border-t-0 border-b-0 '>
+      <Row className='h-full flex justify-center border-l border-r border-solid border-gray-200 border-t-0 border-b-0'>
         <Col span={8} className='px-2'>
           <Filters onFilter={onFilterChange} />
         </Col>
@@ -66,4 +66,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default React.memo(HomePage);

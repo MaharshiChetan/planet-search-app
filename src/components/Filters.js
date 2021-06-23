@@ -29,7 +29,7 @@ const Filters = ({ onFilter }) => {
   return (
     <Spin tip='Loading...' spinning={loading} size='large'>
       {filters ? (
-        <Row className='flex justify-center ml-8'>
+        <Row className='ml-0 md:ml-8'>
           {Object.entries(filters).map(([key, value]) => (
             <Col span={24} key={key}>
               <h1 className='text-xl my-4 mt-8'>{capitalize(key)}</h1>
@@ -46,10 +46,10 @@ const Filters = ({ onFilter }) => {
           ))}
         </Row>
       ) : (
-        <div className='h-60'></div>
+        <div className='h-64'></div>
       )}
     </Spin>
   );
 };
 
-export default Filters;
+export default React.memo(Filters);
