@@ -15,7 +15,7 @@ const Filters = ({ onFilter }) => {
       const [shape, color, size] = await Promise.all(promises);
       setFilters({ shape, color, size });
     } catch (err) {
-      const message = err.message || 'Failed to fetch filters!';
+      const message = `Failed to fetch filters: ${err.message || ''}`;
       showErrorNotification(message);
     } finally {
       setLoading(false);

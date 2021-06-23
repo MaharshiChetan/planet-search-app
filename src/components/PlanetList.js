@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { List, Spin } from 'antd';
 
 import PlanetItem from './PlanetItem';
 
-const PlanetList = ({ planets }) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(!planets);
-  }, [planets]);
-
+const PlanetList = ({ loading, planets }) => {
   return (
     <Spin tip='Loading...' spinning={loading} size='large'>
       {planets ? (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row } from 'antd';
+import { Alert, Col, Row } from 'antd';
 
 import { API } from '../API';
 import Filters from '../components/Filters';
@@ -8,9 +8,11 @@ import SearchBar from '../components/SearchBar';
 import { showErrorNotification } from '../utils/notification';
 
 const HomePage = () => {
-  const [searchText, setSearchText] = useState(null);
-  const [planetList, setPlanetList] = useState(null);
   const [appliedFilters, setAppliedFilters] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [planetList, setPlanetList] = useState(null);
+  const [searchText, setSearchText] = useState(null);
 
   const getPlanets = async () => {
     try {
@@ -18,13 +20,17 @@ const HomePage = () => {
       const planets = await API.getPlanets(params);
       setPlanetList(planets);
     } catch (err) {
-      const message = err.message || 'Failed to fetch planets!';
+      const message = `Failed to fetch planets: ${err.message || ''}`;
       showErrorNotification(message);
+      setErrorMessage(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const onSearch = () => {
     setPlanetList(null);
+    setLoading(true);
     getPlanets();
   };
 
@@ -54,14 +60,18 @@ const HomePage = () => {
 
       <hr />
 
-      <Row className='h-full flex justify-center border-l border-r border-solid border-gray-200 border-t-0 border-b-0'>
-        <Col span={8} className='px-2'>
-          <Filters onFilter={onFilterChange} />
-        </Col>
-        <Col span={16} className='pt-4 border-l border-solid border-gray-200 pl-4'>
-          <PlanetList planets={planetList} />
-        </Col>
-      </Row>
+      {errorMessage ? (
+        <Alert message='Error' description={errorMessage} type='error' showIcon />
+      ) : (
+        <Row className='h-full flex justify-center border-l border-r border-solid border-gray-200 border-t-0 border-b-0'>
+          <Col span={8} className='px-2'>
+            <Filters onFilter={onFilterChange} />
+          </Col>
+          <Col span={16} className='pt-4 border-l border-solid border-gray-200 pl-4'>
+            <PlanetList planets={planetList} loading={loading} />
+          </Col>
+        </Row>
+      )}
     </div>
   );
 };
