@@ -2,9 +2,9 @@ import request from './request';
 import { BASE_URL } from './apiConstants';
 
 export const API = {
-  getPlanets: () => {
+  getPlanets: (params = {}) => {
     const url = `${BASE_URL}/planets`;
-    return request(url, {}, {}, 'GET');
+    return request(url, {}, params, 'GET');
   },
   getShapes: () => {
     const url = `${BASE_URL}/shapes`;
@@ -17,9 +17,5 @@ export const API = {
   getSizes: () => {
     const url = `${BASE_URL}/sizes`;
     return request(url, {}, {}, 'GET');
-  },
-  filterPlanets: (params) => {
-    const url = `${BASE_URL}/sizes`;
-    return request(url, {}, params, 'GET');
   },
 };
